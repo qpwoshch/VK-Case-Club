@@ -102,6 +102,28 @@ fun Application.configureRouting(publicDir: File) {
             call.respond(categories)
         }
 
+        get("/categories/{category}") {
+            val base = call.baseUrl()
+            val fields = setOf("id", "name", "category", "ratingAge", "shortDesc", "iconUrl")
+
+            // Получаем категорию из параметра пути
+            val category = call.parameters["category"]
+
+            // Фильтруем список приложений
+            val filtered = if (category != null) {
+                appsSeed.filter { it.category.equals(category, ignoreCase = true) }
+            } else {
+                emptyList()
+            }
+
+            // Преобразуем в DTO и собираем JSON
+            val list = filtered.map { it.toDto(base, publicDir) }
+            val jsonArray: JsonArray = appsToJsonArray(list, fields)
+            val wrapped: JsonObject = JsonObject(mapOf("apps" to jsonArray))
+
+            call.respond(wrapped)
+        }
+
         // APK-скачивание
         get("/apps/{id}/apk") {
             val id = call.parameters["id"]
