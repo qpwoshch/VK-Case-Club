@@ -11,23 +11,25 @@ repositories {
     mavenCentral()
 }
 
-val ktorVersion = "3.0.0"
+val ktorVersion = "2.3.12"
 
 dependencies {
-    implementation("io.ktor:ktor-server-netty:$ktorVersion")
-    implementation("io.ktor:ktor-server-core:$ktorVersion")
+    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
 
-    implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
 
-    implementation("io.ktor:ktor-server-cors:$ktorVersion")
+    implementation("io.ktor:ktor-server-cors-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-compression-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-partial-content-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-auto-head-response-jvm:$ktorVersion")
 
-    implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
+    implementation("ch.qos.logback:logback-classic:1.5.6")
 
     testImplementation(kotlin("test"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
 }
-
 
 application {
     mainClass.set("com.example.backend.ApplicationKt")

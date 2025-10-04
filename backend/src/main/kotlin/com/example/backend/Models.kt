@@ -1,3 +1,4 @@
+// src/main/kotlin/com/example/backend/Models.kt
 package com.example.backend
 
 import kotlinx.serialization.Serializable
@@ -8,7 +9,7 @@ data class AppDto(
     val name: String,
     val developer: String,
     val category: String,       // "Финансы", "Инструменты", "Игры", "Государственные", "Транспорт"
-    val ratingAge: String,      // "0+", "6+", "12+", "16+", "18+"
+    val ratingAge: String,      // "0+", "6+", "8+", "12+", "16+", "18+"
     val shortDesc: String,
     val fullDesc: String,
     val iconUrl: String,
@@ -22,4 +23,26 @@ data class AppDto(
 data class CategoryDto(
     val name: String,
     val count: Int
+)
+
+@Serializable
+data class PagedAppsDto(
+    val items: List<AppDto>,
+    val total: Int,
+    val limit: Int,
+    val offset: Int
+)
+
+@Serializable
+data class ErrorDto(val error: String, val message: String? = null)
+
+fun error(code: String, msg: String? = null) = ErrorDto(code, msg)
+
+@Serializable
+data class DebugPublicDto(
+    val publicPath: String,
+    val exists: Boolean,
+    val icons: List<String>,
+    val screenshots: List<String>,
+    val apks: List<String>
 )

@@ -1,8 +1,5 @@
 package com.example.backend
 
-import java.io.File
-
-// Seed-модель с относительными путями
 internal data class SeedApp(
     val id: String,
     val name: String,
@@ -55,24 +52,12 @@ internal val appsSeed = listOf(
     )
 )
 
-// Сборка DTO с вычислением apkSize/apkSha256
-internal fun SeedApp.toDto(base: String, publicDir: File): AppDto {
-    val apkFile = File(publicDir, apkPath)
-    val size = if (apkFile.exists()) apkFile.length() else null
-    val hash = if (apkFile.exists()) sha256(apkFile) else null
+val AllowedCategories = setOf("Финансы", "Инструменты", "Игры", "Государственные", "Транспорт")
+val AllowedAgeRatings = setOf("0+", "6+", "8+", "12+", "16+", "18+")
 
-    return AppDto(
-        id = id,
-        name = name,
-        developer = developer,
-        category = category,
-        ratingAge = ratingAge,
-        shortDesc = shortDesc,
-        fullDesc = fullDesc,
-        iconUrl = "$base/static/$iconPath",
-        screenshots = screenshotPaths.map { "$base/static/$it" },
-        apkUrl = "$base/static/$apkPath",
-        apkSize = size,
-        apkSha256 = hash
-    )
+fun validateSeeds() {
+    val badCats = appsSeed.filter { it.category !in AllowedCategories }
+    val badAges = appsSeed.filter { it.ratingAge !in AllowedAgeRatings }
+    require(badCats.isEmpty()) { "Seed category is out of allowed set: $badCats" }
+    require(badAges.isEmpty()) { "Seed age rating is out of allowed set: $badAges" }
 }
