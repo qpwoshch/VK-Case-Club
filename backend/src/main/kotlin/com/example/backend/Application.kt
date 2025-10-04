@@ -58,10 +58,7 @@ fun main() {
         }
 
         // Путь к public
-        val publicDir = File(
-            System.getenv("PUBLIC_DIR")
-                ?: "/home/kirill/Desktop/VK-Case-Club/backend/public"
-        ).absoluteFile
+        val publicDir = File("public").absoluteFile
 
         // ----------- Полезные логи старта -----------
         val lanIps = localLanIPv4()
