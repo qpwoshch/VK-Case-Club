@@ -150,6 +150,61 @@ internal val appsSeed = listOf(
             "screenshots/7/screen3.png"
         ),
         apkPath = "apks/demo.apk"
+    ),
+    SeedApp(
+        id = "8",
+        name = "Alzex Finance",
+        developer = "Alzex Software",
+        category = "Финансы",
+        ratingAge = "6+",
+        shortDesc = "Домашняя бухгалтерия: учёт доходов и расходов, бюджеты и отчёты.",
+        fullDesc =
+            "Alzex Finance — приложение для личных и семейных финансов. Ведите учёт доходов и расходов по счетам и категориям, " +
+                    "создавайте бюджеты, планируйте платежи, анализируйте отчёты и диаграммы. Поддерживаются несколько валют и синхронизация между устройствами.",
+        iconPath = "icons/8/icon.png",
+        screenshotPaths = listOf(
+            "screenshots/8/screen1.png",
+            "screenshots/8/screen2.png",
+            "screenshots/8/screen3.png"
+        ),
+        apkPath = "apks/demo.apk"
+    ),
+    SeedApp(
+        id = "9",
+        name = "Яндекс Навигатор",
+        developer = "Yandex LLC",
+        category = "Транспорт",
+        ratingAge = "0+",
+        shortDesc = "Навигатор с пробками, детальными маршрутами и голосовыми подсказками.",
+        fullDesc =
+            "Яндекс Навигатор строит быстрые маршруты с учётом пробок и перекрытий, предупреждает о камерах и дорожных событиях. " +
+                    "Поддерживает голосовое управление, ночной режим и альтернативные пути. Работает в городах и между ними, помогает объезжать заторы.",
+        iconPath = "icons/9/icon.png",
+        screenshotPaths = listOf(
+            "screenshots/9/screen1.png",
+            "screenshots/9/screen2.png",
+            "screenshots/9/screen3.png"
+        ),
+        apkPath = "apks/demo.apk"
+    ),
+    SeedApp(
+        id = "10",
+        name = "Binance",
+        developer = "Binance",
+        category = "Финансы",
+        ratingAge = "12+",
+        shortDesc = "Криптобиржа и кошелёк: торговля, P2P, стейкинг и аналитика рынка.",
+        fullDesc =
+            "Binance — приложение для торговли криптовалютами: спот, P2P, простые сделки и продвинутые ордера. " +
+                    "Поддерживает кошелёк, переводы, уведомления о ценах, виджеты графиков и базовые обучающие материалы. " +
+                    "Есть разделы для мониторинга портфеля и истории операций.",
+        iconPath = "icons/10/icon.png",
+        screenshotPaths = listOf(
+            "screenshots/10/screen1.png",
+            "screenshots/10/screen2.png",
+            "screenshots/10/screen3.png"
+        ),
+        apkPath = "apks/demo.apk"
     )
 )
 
