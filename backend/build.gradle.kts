@@ -22,9 +22,12 @@ dependencies {
 
     implementation("io.ktor:ktor-server-cors:$ktorVersion")
 
+    implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
+
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
 }
+
 
 application {
     mainClass.set("com.example.backend.ApplicationKt")
