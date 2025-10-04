@@ -25,17 +25,23 @@ fun AppListScreen(
     onOpenCategories: () -> Unit,
     onOpenDetails: (String) -> Unit
 ) {
-    LaunchedEffect(category) { viewModel.refresh(category) }
-
     val list by viewModel.apps.collectAsState()
     val loading by viewModel.loading.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (category == null) "Рекомендации" else "Категория: $category") },
+                title = {
+                    Text(
+                        if (category == null) "Рекомендации"
+                        else "Категория: $category",
+                        fontWeight = FontWeight.SemiBold
+                    )
+                },
                 actions = {
-                    TextButton(onClick = onOpenCategories) { Text("Категории") }
+                    TextButton(onClick = onOpenCategories) {
+                        Text("Категории", fontWeight = FontWeight.Medium)
+                    }
                 }
             )
         }
@@ -43,14 +49,16 @@ fun AppListScreen(
         Box(Modifier.padding(padding)) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(12.dp),
+                contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 itemsIndexed(list, key = { _, it -> it.id }) { index, item ->
-                    if (index >= list.lastIndex - 4) viewModel.loadMore() // префетч
-
+                    if (index >= list.size - 3) {
+                        viewModel.loadMore()
+                    }
                     AppListItem(app = item, onClick = { onOpenDetails(item.id) })
                 }
+
                 item {
                     if (loading) {
                         Row(
@@ -58,7 +66,9 @@ fun AppListScreen(
                                 .fillMaxWidth()
                                 .padding(16.dp),
                             horizontalArrangement = Arrangement.Center
-                        ) { CircularProgressIndicator() }
+                        ) {
+                            CircularProgressIndicator()
+                        }
                     }
                 }
             }
@@ -72,27 +82,61 @@ private fun AppListItem(app: AppDto, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
     ) {
-        Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Иконка приложения
             AsyncImage(
                 model = app.iconUrl,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(56.dp)
+                    .size(64.dp)
                     .clip(RoundedCornerShape(12.dp))
             )
-            Spacer(Modifier.width(12.dp))
+
+            Spacer(Modifier.width(16.dp))
+
+            // Информация о приложении
             Column(Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(app.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                    Text(
+                        app.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
                     Spacer(Modifier.width(8.dp))
-                    app.age?.let { AssistChip(onClick = {}, label = { Text("$it+") }) }
+                    app.age?.let {
+                        AssistChip(
+                            onClick = {},
+                            label = { Text(it, style = MaterialTheme.typography.labelSmall) }
+                        )
+                    }
                 }
+
                 Spacer(Modifier.height(4.dp))
-                Text(app.description, maxLines = 2, style = MaterialTheme.typography.bodyMedium)
-                Spacer(Modifier.height(6.dp))
-                AssistChip(onClick = {}, label = { Text(app.category) })
+
+                Text(
+                    app.description,
+                    maxLines = 2,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Spacer(Modifier.height(8.dp))
+
+                AssistChip(
+                    onClick = {},
+                    label = {
+                        Text(
+                            app.category,
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    }
+                )
             }
         }
     }

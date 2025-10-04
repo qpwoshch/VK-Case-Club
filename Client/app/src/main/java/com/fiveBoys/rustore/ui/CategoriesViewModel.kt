@@ -12,11 +12,11 @@ class CategoriesViewModel(private val repo: AppsRepository): ViewModel() {
     private val _cats = MutableStateFlow<List<CategoryDto>>(emptyList())
     val cats: StateFlow<List<CategoryDto>> = _cats
 
-    fun load() {
-        if (_cats.value.isNotEmpty()) return
-        viewModelScope.launch {
-            runCatching { repo.categories() }
-                .onSuccess { _cats.value = it }
-        }
-    }
+//    fun load() {
+//        if (_cats.value.isNotEmpty()) return
+//        viewModelScope.launch {
+//            runCatching { repo.categories() }
+//                .onSuccess { _cats.value = it }
+//        }
+//    }
 }

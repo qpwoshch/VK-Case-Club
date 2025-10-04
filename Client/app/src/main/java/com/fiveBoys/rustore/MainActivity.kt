@@ -3,6 +3,7 @@ package com.fiveBoys.rustore
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,6 +16,7 @@ import com.fiveBoys.rustore.repo.AppsRepository
 import com.fiveBoys.rustore.ui.*
 import com.fiveBoys.rustore.ui.theme.RuStoreTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -27,12 +29,12 @@ class MainActivity : ComponentActivity() {
         val onboardingStore = OnboardingStore(this)
 
         setContent {
-            RuStoreTheme  {
+            RuStoreTheme {
                 val nav = rememberNavController()
 
-                // простые фабрики VM
+                // Фабрики для ViewModel
                 val listVm = viewModel<AppListViewModel>(factory = vmFactory { AppListViewModel(repo) })
-                val catVm  = viewModel<CategoriesViewModel>(factory = vmFactory { CategoriesViewModel(repo) })
+                val catVm = viewModel<CategoriesViewModel>(factory = vmFactory { CategoriesViewModel(repo) })
 
                 NavHost(navController = nav, startDestination = Routes.SPLASH) {
                     composable(Routes.SPLASH) {
@@ -47,13 +49,8 @@ class MainActivity : ComponentActivity() {
                             onContinue = {
                                 nav.navigate(Routes.FEED) { popUpTo(0) }
                             },
-                            onShown = { // отметим в DataStore
-                                runOnUiThread {
-                                    // в compose лучше через coroutineScope, но для краткости:
-                                }
-                            },
-                            markShown = { // безопасная передача suspend
-                                kotlinx.coroutines.GlobalScope.launch {
+                            markShown = {
+                                GlobalScope.launch {
                                     onboardingStore.setShown()
                                 }
                             }
@@ -68,6 +65,10 @@ class MainActivity : ComponentActivity() {
                         })
                     ) { backStackEntry ->
                         val category = backStackEntry.arguments?.getString("category")
+                        // Обновляем ViewModel при смене категории
+                        LaunchedEffect(category) {
+                            listVm.refresh(category)
+                        }
                         AppListScreen(
                             nav = nav,
                             viewModel = listVm,
@@ -81,12 +82,17 @@ class MainActivity : ComponentActivity() {
                             nav = nav,
                             viewModel = catVm,
                             onPick = { cat ->
-                                nav.navigate("${Routes.FEED}?category=$cat") { popUpTo(Routes.FEED) { inclusive = true } }
+                                nav.navigate("${Routes.FEED}?category=$cat") {
+                                    popUpTo(Routes.FEED) { inclusive = true }
+                                }
                             }
                         )
                     }
                     composable("${Routes.DETAILS}/{id}") { entry ->
-                        AppDetailsScreen(appId = entry.arguments?.getString("id") ?: "0", onBack = { nav.popBackStack() })
+                        AppDetailsScreen(
+                            appId = entry.arguments?.getString("id") ?: "0",
+                            onBack = { nav.popBackStack() }
+                        )
                     }
                 }
             }

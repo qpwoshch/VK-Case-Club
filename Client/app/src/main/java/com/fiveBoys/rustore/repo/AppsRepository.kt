@@ -7,18 +7,14 @@ import com.fiveBoys.rustore.network.AppDto
 import com.fiveBoys.rustore.network.CategoryDto
 
 class AppsRepository(private val api: ApiService) {
-    private val pageSize = 20
+    private val pageSize = 10  // Размер страницы для ленивой загрузки
 
-    suspend fun loadPage(page: Int, category: String?): PageResult =
-        withContext(Dispatchers.IO) {
-            val r = api.getApps(page = page, pageSize = pageSize, category = category)
-            PageResult(
-                items = r.items,
-                nextPage = if (r.hasNext) r.page + 1 else null
-            )
-        }
+    suspend fun loadAllApps(): List<AppDto> = withContext(Dispatchers.IO) {
+        val response = api.getApps()
+        response.apps
+    }
 
-    suspend fun categories(): List<CategoryDto> = withContext(Dispatchers.IO) { api.getCategories() }
-
-    data class PageResult(val items: List<AppDto>, val nextPage: Int?)
+//    suspend fun categories(): List<CategoryDto> = withContext(Dispatchers.IO) {
+//        api.getCategories()
+//    }
 }

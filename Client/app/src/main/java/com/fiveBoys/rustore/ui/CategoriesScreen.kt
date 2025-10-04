@@ -18,7 +18,7 @@ fun CategoriesScreen(
     viewModel: CategoriesViewModel,
     onPick: (String) -> Unit
 ) {
-    LaunchedEffect(Unit) { viewModel.load() }
+//    LaunchedEffect(Unit) { viewModel.load() }
     val cats by viewModel.cats.collectAsState()
 
     Scaffold(

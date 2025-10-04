@@ -4,13 +4,18 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class AppsResponse(
+    val apps: List<AppDto>
+)
+
+@Serializable
 data class AppDto(
     val id: String,
     val name: String,
-    val description: String,
     val category: String,
-    @SerialName("iconUrl") val iconUrl: String = "",
-    @SerialName("age") val age: String? = null
+    @SerialName("ratingAge") val age: String? = null,
+    @SerialName("shortDesc") val description: String,
+    @SerialName("iconUrl") val iconUrl: String = ""
 )
 
 @Serializable

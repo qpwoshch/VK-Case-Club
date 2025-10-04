@@ -7,7 +7,8 @@
         android:icon="@mipmap/ic_rustore"
         android:label="RuStore MVP"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RuStore">
+        android:theme="@style/Theme.RuStore"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:exported="true">

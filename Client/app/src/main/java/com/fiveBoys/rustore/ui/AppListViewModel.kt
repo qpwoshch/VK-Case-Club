@@ -16,29 +16,52 @@ class AppListViewModel(private val repo: AppsRepository) : ViewModel() {
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading
 
-    private var nextPage: Int? = 1
-    private var currentCategory: String? = null
+    private var allApps: List<AppDto> = emptyList()
+    private var currentPage = 0
+    private val pageSize = 10
 
-    fun refresh(category: String?) {
-        currentCategory = category
-        nextPage = 1
-        _apps.value = emptyList()
-        loadMore()
+    init {
+        loadInitialData()
+    }
+
+    fun refresh(category: String? = null) {
+        // Фильтрация по категории может быть добавлена позже
+        loadInitialData()
+    }
+
+    private fun loadInitialData() {
+        if (_loading.value) return
+        _loading.value = true
+
+        viewModelScope.launch {
+            runCatching { repo.loadAllApps() }
+                .onSuccess { apps ->
+                    allApps = apps
+                    currentPage = 1
+                    _apps.value = allApps.take(pageSize)
+                }
+                .onFailure {
+                    // Обработка ошибок
+                    it.printStackTrace()
+                }
+            _loading.value = false
+        }
     }
 
     fun loadMore() {
-        val page = nextPage ?: return
         if (_loading.value) return
+
+        val nextPage = currentPage + 1
+        val startIndex = currentPage * pageSize
+        val endIndex = minOf(startIndex + pageSize, allApps.size)
+
+        if (startIndex >= allApps.size) return
+
         _loading.value = true
         viewModelScope.launch {
-            runCatching { repo.loadPage(page, currentCategory) }
-                .onSuccess {
-                    _apps.value = _apps.value + it.items
-                    nextPage = it.nextPage
-                }
-                .onFailure {
-                    // для MVP просто глушим; можно отдать ошибку в UI
-                }
+            val newItems = allApps.subList(startIndex, endIndex)
+            _apps.value = _apps.value + newItems
+            currentPage = nextPage
             _loading.value = false
         }
     }

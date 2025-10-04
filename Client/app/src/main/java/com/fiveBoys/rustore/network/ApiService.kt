@@ -11,23 +11,17 @@ import retrofit2.create
 import okhttp3.MediaType.Companion.toMediaType
 
 object ApiConfig {
-    // Эмулятор -> локальный ПК
-    const val BASE_URL = "http://10.0.2.2:8080"
-    // Если у вас сервер ждёт на /get_aps — просто поменяй эту константу:
-    const val APPS_PATH = "/apps"        // "/get_aps"
+    const val BASE_URL = "http://192.168.0.115:8080"
+    const val APPS_PATH = "/apps/start"  // Изменили путь
     const val CATEGORIES_PATH = "/categories"
 }
 
 interface ApiService {
     @GET(ApiConfig.APPS_PATH)
-    suspend fun getApps(
-        @Query("page") page: Int,
-        @Query("pageSize") pageSize: Int,
-        @Query("category") category: String? = null
-    ): PagedResponse<AppDto>
+    suspend fun getApps(): AppsResponse  // Убрали пагинацию, так как сервер отдает все сразу
 
-    @GET(ApiConfig.CATEGORIES_PATH)
-    suspend fun getCategories(): List<CategoryDto>
+//    @GET(ApiConfig.CATEGORIES_PATH)
+//    suspend fun getCategories(): List<CategoryDto>
 }
 
 fun provideApi(): ApiService {
