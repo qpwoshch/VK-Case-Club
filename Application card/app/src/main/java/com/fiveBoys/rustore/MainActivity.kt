@@ -26,13 +26,10 @@ class MainActivity : ComponentActivity() {
 
 
 
-        // 🔹 Отображение Compose UI
         setContent {
             RuStoreTheme {
                 val navController = rememberNavController()
-
-                // Пример получения app из JSON
-                val appObject = opener.open("Вконтакте")
+                val appObject = opener.open("2")
 
                 AppNavHost(navController, appObject)
             }

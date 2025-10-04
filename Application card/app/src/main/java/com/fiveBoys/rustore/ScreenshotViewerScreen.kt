@@ -12,7 +12,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -29,35 +28,14 @@ fun ScreenshotViewerScreen(
     val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // Заголовок с логотипом и текстом RuStore
         TopAppBar(
-            title = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start // Выравнивание по левому краю
-                ) {
-                    // Логотип RuStore
-                    AsyncImage(
-                        model = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/RuStore_logo.svg/1200px-RuStore_logo.svg.png", // Прямой URL к изображению
-                        contentDescription = "RuStore Logo",
-                        modifier = Modifier.size(40.dp), // Размер логотипа
-                        contentScale = ContentScale.Fit
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    // Название RuStore
-                    Text(
-                        "RuStore",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(start = 8.dp) // Отступ между логотипом и текстом
-                    )
-                }
-            },
+            title = { Text("Скриншоты") },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Назад")
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
         )
 
         Box(
@@ -66,7 +44,6 @@ fun ScreenshotViewerScreen(
                 .padding(8.dp),
             contentAlignment = Alignment.Center
         ) {
-            // Карусель скриншотов
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
@@ -79,7 +56,6 @@ fun ScreenshotViewerScreen(
                 )
             }
 
-            // Кнопки для прокрутки скриншотов
             IconButton(
                 onClick = {
                     scope.launch {

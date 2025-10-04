@@ -1,24 +1,24 @@
 package com.fiveBoys.rustore
 
-class Connect {
-    fun getData(name : String) : String {
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-        return """
-            {
-              "id": 101,
-              "name": "Вконтакте",
-              "developer": "VK",
-              "category": "Мессенджер",
-              "ratingAge": "14+",
-              "fullDesc": "«ВКонтакте» (международное название — VK) — российская социальная сеть. Предназначена для общения, обмена информацией и развлекательного досуга. ",
-              "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/2/21/VK.com-logo.svg",
-              "screenshots": [
-                "https://upload.wikimedia.org/wikipedia/commons/3/3d/VK_Desktop.png",
-                "https://upload.wikimedia.org/wikipedia/commons/f/f0/VK_mobile_app.png"
-              ],
-              "apkUrl": "https://rt.pornhub.com/",
-              "apkSize": 14567
-            }
-        """.trimIndent()
+class Connect {
+
+    private val client = OkHttpClient()
+
+    suspend fun getData(id: String): String {
+        return withContext(Dispatchers.IO) {
+            val request = Request.Builder()
+                .url("http://192.168.0.115:8080/apps/$id")
+                .build()
+            val response: Response = client.newCall(request).execute()
+            response.body?.string() ?: ""
+
+
+        }
     }
 }

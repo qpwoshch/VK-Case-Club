@@ -16,6 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.foundation.clickable
+
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun AppCardScreen(
@@ -31,9 +33,23 @@ fun AppCardScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            // Заголовок
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "RuStore",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize * 1.5f
+                    ),
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+
             TopAppBar(
-                title = { Text("Скриншоты", style = MaterialTheme.typography.titleLarge) },
+                title = {},
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Назад")
@@ -42,10 +58,8 @@ fun AppCardScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
             )
 
+            Spacer(Modifier.height(2.dp))
 
-            Spacer(Modifier.height(16.dp))
-
-            // Иконка и информация
             Row(verticalAlignment = Alignment.CenterVertically) {
                 AsyncImage(
                     model = app.iconUrl,
@@ -65,22 +79,20 @@ fun AppCardScreen(
 
             Spacer(Modifier.height(16.dp))
 
-            // Кнопка "Установить"
             Button(
-                onClick = { /* Реализовать установку APK */ },
+                onClick = {},
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary // Цвет кнопки
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             ) {
-                Text("Установить", style = MaterialTheme.typography.bodyLarge) // Текст на кнопке
+                Text("Установить", style = MaterialTheme.typography.bodyLarge)
             }
 
             Spacer(Modifier.height(16.dp))
 
-            // Описание приложения
             Text(
                 text = app.fullDesc,
                 style = MaterialTheme.typography.bodyMedium
@@ -88,7 +100,6 @@ fun AppCardScreen(
 
             Spacer(Modifier.height(24.dp))
 
-            // Заголовок "Скриншоты"
             Text(
                 text = "Скриншоты",
                 style = MaterialTheme.typography.titleLarge,
@@ -97,7 +108,6 @@ fun AppCardScreen(
 
             Spacer(Modifier.height(8.dp))
 
-            // Скриншоты приложения
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(app.screenshots.size) { index ->
                     AsyncImage(
@@ -106,7 +116,9 @@ fun AppCardScreen(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(180.dp)
-
+                            .clickable {
+                                navController.navigate("screenshot_viewer/$index")
+                            }
                     )
                 }
             }
