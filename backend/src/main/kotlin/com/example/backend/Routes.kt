@@ -99,6 +99,10 @@ fun Application.configureRouting(publicDir: File) {
                 .groupBy { it.category }
                 .map { (name, items) -> CategoryDto(name, items.size) }
                 .sortedBy { it.name }
+                .toMutableList()
+
+            // Добавляем категорию "Все" с общим количеством приложений
+            categories.add(0, CategoryDto("Все", appsSeed.size))
             call.respond(categories)
         }
 
@@ -106,17 +110,14 @@ fun Application.configureRouting(publicDir: File) {
             val base = call.baseUrl()
             val fields = setOf("id", "name", "category", "ratingAge", "shortDesc", "iconUrl")
 
-            // Получаем категорию из параметра пути
             val category = call.parameters["category"]
 
-            // Фильтруем список приложений
-            val filtered = if (category != null) {
-                appsSeed.filter { it.category.equals(category, ignoreCase = true) }
-            } else {
-                emptyList()
+            val filtered = when {
+                category == null -> emptyList()
+                category.equals("Все", ignoreCase = true) -> appsSeed
+                else -> appsSeed.filter { it.category.equals(category, ignoreCase = true) }
             }
 
-            // Преобразуем в DTO и собираем JSON
             val list = filtered.map { it.toDto(base, publicDir) }
             val jsonArray: JsonArray = appsToJsonArray(list, fields)
             val wrapped: JsonObject = JsonObject(mapOf("apps" to jsonArray))
