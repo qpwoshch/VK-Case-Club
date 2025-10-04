@@ -66,4 +66,10 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:1.7.2")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.7.2")
     implementation("io.coil-kt:coil-compose:2.0.0")
+    implementation("io.coil-kt:coil-compose:2.0.0")
+    implementation("androidx.compose.material:material-icons-extended:1.7.2")
+    implementation("com.google.code.gson:gson:2.10.1")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.7.2")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.7.2")
+
 }
