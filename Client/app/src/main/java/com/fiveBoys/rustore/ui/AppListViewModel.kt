@@ -9,7 +9,7 @@ import com.fiveBoys.rustore.network.AppDto
 import com.fiveBoys.rustore.repo.AppsRepository
 
 class AppListViewModel(private val repo: AppsRepository) : ViewModel() {
-
+    private var currentCategory: String? = null
     private val _apps = MutableStateFlow<List<AppDto>>(emptyList())
     val apps: StateFlow<List<AppDto>> = _apps
 
@@ -25,7 +25,7 @@ class AppListViewModel(private val repo: AppsRepository) : ViewModel() {
     }
 
     fun refresh(category: String? = null) {
-        // Фильтрация по категории может быть добавлена позже
+        currentCategory = category
         loadInitialData()
     }
 
@@ -34,14 +34,19 @@ class AppListViewModel(private val repo: AppsRepository) : ViewModel() {
         _loading.value = true
 
         viewModelScope.launch {
-            runCatching { repo.loadAllApps() }
+            runCatching {
+                if (currentCategory != null) {
+                    repo.loadAppsByCategory(currentCategory!!)
+                } else {
+                    repo.loadAllApps()
+                }
+            }
                 .onSuccess { apps ->
                     allApps = apps
                     currentPage = 1
                     _apps.value = allApps.take(pageSize)
                 }
                 .onFailure {
-                    // Обработка ошибок
                     it.printStackTrace()
                 }
             _loading.value = false

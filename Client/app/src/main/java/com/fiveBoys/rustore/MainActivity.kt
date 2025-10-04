@@ -32,9 +32,12 @@ class MainActivity : ComponentActivity() {
             RuStoreTheme {
                 val nav = rememberNavController()
 
-                // Фабрики для ViewModel
-                val listVm = viewModel<AppListViewModel>(factory = vmFactory { AppListViewModel(repo) })
-                val catVm = viewModel<CategoriesViewModel>(factory = vmFactory { CategoriesViewModel(repo) })
+                val listVm = viewModel<AppListViewModel>(
+                    factory = vmFactory { AppListViewModel(repo) }
+                )
+                val catVm = viewModel<CategoriesViewModel>(
+                    factory = vmFactory { CategoriesViewModel(repo) }
+                )
 
                 NavHost(navController = nav, startDestination = Routes.SPLASH) {
                     composable(Routes.SPLASH) {

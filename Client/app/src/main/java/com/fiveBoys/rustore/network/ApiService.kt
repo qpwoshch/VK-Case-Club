@@ -9,6 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.create
 import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.http.Path
 
 object ApiConfig {
     const val BASE_URL = "http://192.168.0.115:8080"
@@ -18,10 +19,13 @@ object ApiConfig {
 
 interface ApiService {
     @GET(ApiConfig.APPS_PATH)
-    suspend fun getApps(): AppsResponse  // Убрали пагинацию, так как сервер отдает все сразу
+    suspend fun getApps(): AppsResponse
 
-//    @GET(ApiConfig.CATEGORIES_PATH)
-//    suspend fun getCategories(): List<CategoryDto>
+    @GET(ApiConfig.CATEGORIES_PATH)
+    suspend fun getCategories(): List<CategoryDto>
+
+    @GET("${ApiConfig.CATEGORIES_PATH}/{category}")
+    suspend fun getAppsByCategory(@Path("category") category: String): AppsResponse
 }
 
 fun provideApi(): ApiService {
