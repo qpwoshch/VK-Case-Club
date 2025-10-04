@@ -33,7 +33,7 @@ fun AppListScreen(
             TopAppBar(
                 title = {
                     Text(
-                        if (category == null) "Рекомендации"
+                        if (category == null) "Категория: Все"
                         else "Категория: $category",
                         fontWeight = FontWeight.SemiBold
                     )
