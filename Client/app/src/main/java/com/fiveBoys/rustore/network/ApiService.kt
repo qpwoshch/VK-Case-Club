@@ -6,7 +6,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.http.GET
-import retrofit2.http.Query
 import retrofit2.create
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.http.Path
