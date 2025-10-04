@@ -33,7 +33,7 @@ internal fun SeedApp.toDto(base: String, publicDir: File): AppDto {
         iconUrl = "$base/static/$iconPath",
         screenshots = screenshotPaths.map { "$base/static/$it" },
         // API-роут стабильнее для клиента
-        apkUrl = "$base/apps/$id/apk",
+        apkUrl = "$base/static/apks/$id/app-debug.apk",
         apkSize = size,
         apkSha256 = hash
     )

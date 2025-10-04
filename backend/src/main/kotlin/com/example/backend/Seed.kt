@@ -22,8 +22,8 @@ internal val appsSeed = listOf(
         ratingAge = "12+",
         shortDesc = "Короткое описание",
         fullDesc = "Полное описание приложения...",
-        iconPath = "icons/demo.png",
-        screenshotPaths = listOf("screenshots/s1.png", "screenshots/s2.png"),
+        iconPath = "icons/1/icon.png",
+        screenshotPaths = listOf("screenshots/1/screen1.png", "screenshots/1/screen2.png", "screenshots/1/screen3.png"),
         apkPath = "apks/demo.apk"
     ),
     SeedApp(
@@ -34,8 +34,8 @@ internal val appsSeed = listOf(
         ratingAge = "6+",
         shortDesc = "Официальный городской такси-сервис",
         fullDesc = "Описание, фичи, преимущества...",
-        iconPath = "icons/demo.png",
-        screenshotPaths = listOf("screenshots/s1.png"),
+        iconPath = "icons/2/icon.png",
+        screenshotPaths = listOf("screenshots/2/screen1.png", "screenshots/2/screen2.png", "screenshots/2/screen3.png"),
         apkPath = "apks/demo.apk"
     ),
     SeedApp(
@@ -46,8 +46,8 @@ internal val appsSeed = listOf(
         ratingAge = "0+",
         shortDesc = "Госуслуги в кармане",
         fullDesc = "Записи, документы, уведомления...",
-        iconPath = "icons/demo.png",
-        screenshotPaths = listOf("screenshots/s2.png"),
+        iconPath = "icons/3/icon.png",
+        screenshotPaths = listOf("screenshots/3/screen1.png", "screenshots/3/screen2.png", "screenshots/3/screen3.png"),
         apkPath = "apks/demo.apk"
     )
 )
