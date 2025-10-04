@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.runtime.saveable)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,5 +72,6 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     debugImplementation("androidx.compose.ui:ui-tooling:1.7.2")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.7.2")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
 }

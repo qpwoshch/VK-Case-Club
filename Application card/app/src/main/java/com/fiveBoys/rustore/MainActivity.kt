@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             RuStoreTheme {
                 val navController = rememberNavController()
-                val appObject = opener.open("2")
+                val appObject = opener.open("1")
 
                 AppNavHost(navController, appObject)
             }
