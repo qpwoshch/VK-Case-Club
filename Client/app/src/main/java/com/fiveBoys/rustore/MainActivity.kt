@@ -91,10 +91,19 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-                    composable("${Routes.DETAILS}/{id}") { entry ->
-                        AppDetailsScreen(
-                            appId = entry.arguments?.getString("id") ?: "0",
-                            onBack = { nav.popBackStack() }
+                    composable(
+                        route = "${Routes.DETAILS}/{id}",
+                        arguments = listOf(navArgument("id") { type = NavType.StringType })
+                    ) { entry ->
+                        val id = entry.arguments?.getString("id") ?: return@composable
+
+                        val detailsVm = viewModel<AppDetailsViewModel>(
+                            factory = vmFactory { AppDetailsViewModel(repo, id) }
+                        )
+
+                        AppDetailsRoute(
+                            navController = nav,
+                            viewModel = detailsVm
                         )
                     }
                 }

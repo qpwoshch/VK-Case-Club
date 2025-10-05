@@ -2,11 +2,12 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
     namespace = "com.fiveBoys.rustore"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.fiveBoys.rustore"
@@ -66,10 +67,15 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.compose.runtime)
     val nav_version = "2.8.3" // последняя стабильная на октябрь 2025
 
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    implementation ("androidx.compose:compose-bom:2024.09.01")
+    implementation ("androidx.compose.foundation:foundation")
+    implementation ("androidx.compose.material3:material3")
 
     implementation("com.google.code.gson:gson:2.11.0")
 

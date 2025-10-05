@@ -1,5 +1,6 @@
 package com.fiveBoys.rustore.repo
 
+import com.fiveBoys.rustore.App
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.fiveBoys.rustore.network.ApiService
@@ -18,4 +19,11 @@ class AppsRepository(private val api: ApiService) {
     suspend fun loadAppsByCategory(category: String): List<AppDto> = withContext(Dispatchers.IO) {
         api.getAppsByCategory(category).apps
     }
+
+    suspend fun getAppById(id: String): App = withContext(Dispatchers.IO) {
+        // Используем AppOpener, который делает GET /apps/{id}
+        val opener = com.fiveBoys.rustore.AppOpener()
+        opener.open(id)
+    }
+
 }

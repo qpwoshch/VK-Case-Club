@@ -26,3 +26,4 @@ fun AppDetailsScreen(appId: String, onBack: () -> Unit) {
         )
     }
 }
+
