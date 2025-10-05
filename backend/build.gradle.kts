@@ -25,7 +25,8 @@ dependencies {
     implementation("io.ktor:ktor-server-compression-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-partial-content-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auto-head-response-jvm:$ktorVersion")
-
+    testImplementation("io.ktor:ktor-server-test-host:${ktorVersion}")
+    testImplementation("io.ktor:ktor-client-content-negotiation:${ktorVersion}")
     implementation("ch.qos.logback:logback-classic:1.5.6")
 
     testImplementation(kotlin("test"))
