@@ -1,4 +1,3 @@
-// src/main/kotlin/com/example/backend/Routes.kt
 package com.example.backend
 
 import io.ktor.http.HttpHeaders
