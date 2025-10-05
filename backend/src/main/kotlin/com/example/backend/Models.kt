@@ -1,4 +1,3 @@
-// src/main/kotlin/com/example/backend/Models.kt
 package com.example.backend
 
 import kotlinx.serialization.Serializable
@@ -8,8 +7,8 @@ data class AppDto(
     val id: String,
     val name: String,
     val developer: String,
-    val category: String,       // "Финансы", "Инструменты", "Игры", "Государственные", "Транспорт"
-    val ratingAge: String,      // "0+", "6+", "8+", "12+", "16+", "18+"
+    val category: String,       
+    val ratingAge: String,   
     val shortDesc: String,
     val fullDesc: String,
     val iconUrl: String,
