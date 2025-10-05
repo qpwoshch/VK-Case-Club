@@ -6,4 +6,6 @@ object Routes {
     const val FEED = "feed"
     const val CATEGORIES = "categories"
     const val DETAILS = "details"
+    const val SCREENSHOT_VIEWER = "screenshot_viewer"
+
 }

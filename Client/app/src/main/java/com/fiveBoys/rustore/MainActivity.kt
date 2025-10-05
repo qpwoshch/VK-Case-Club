@@ -1,5 +1,6 @@
 package com.fiveBoys.rustore
 
+import ScreenshotViewerScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -106,7 +107,26 @@ class MainActivity : ComponentActivity() {
                             viewModel = detailsVm
                         )
                     }
+                    composable(
+                        route = "${Routes.SCREENSHOT_VIEWER}/{startIndex}",
+                        arguments = listOf(navArgument("startIndex") { type = NavType.IntType })
+                    ) { backStackEntry ->
+                        val startIndex = backStackEntry.arguments?.getInt("startIndex") ?: 0
+                        // забираем список скринов, который положили перед navigate
+                        val screens = nav.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.get<ArrayList<String>>("screens")
+                            ?.toList()
+                            .orEmpty()
+
+                        ScreenshotViewerScreen(
+                            screens = screens,
+                            startIndex = startIndex,
+                            onBack = { nav.popBackStack() }
+                        )
+                    }
                 }
+
             }
         }
     }

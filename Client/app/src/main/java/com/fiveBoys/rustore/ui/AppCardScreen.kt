@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.fiveBoys.rustore.ui.Routes
 import kotlinx.coroutines.launch
 
 private const val LOG_TAG = "RuStoreInstall"
@@ -220,7 +221,9 @@ fun AppCardScreen(
                         modifier = Modifier
                             .size(210.dp)
                             .clickable {
-                                navController.navigate("screenshot_viewer/$index")
+                                navController.currentBackStackEntry?.savedStateHandle
+                                    ?.set("screens", ArrayList(app.screenshots))
+                                navController.navigate("${Routes.SCREENSHOT_VIEWER}/$index")
                             }
                     )
                 }
