@@ -26,9 +26,11 @@ object AppInstaller {
         .retryOnConnectionFailure(true)
         .build()
 
-    fun needsUnknownSources(context: Context): Boolean =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                !context.packageManager.canRequestPackageInstalls()
+    fun needsUnknownSources(ctx: Context): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                try { !ctx.packageManager.canRequestPackageInstalls() }
+                catch (e: SecurityException) { true }
+    }
 
     fun unknownSourcesIntent(context: Context): Intent =
         Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES)
