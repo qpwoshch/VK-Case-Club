@@ -1,4 +1,3 @@
-// src/main/kotlin/com/example/backend/Utils.kt
 package com.example.backend
 
 import io.ktor.server.application.ApplicationCall
@@ -9,14 +8,12 @@ import kotlinx.serialization.json.*
 import java.io.File
 import java.security.MessageDigest
 
-// Полный набор имён полей AppDto (для /apps/start по умолчанию)
 internal val ALL_APPDTO_FIELDS: Set<String> = setOf(
     "id", "name", "developer", "category", "ratingAge",
     "shortDesc", "fullDesc", "iconUrl", "screenshots",
     "apkUrl", "apkSize", "apkSha256"
 )
 
-// SeedApp -> AppDto с вычисляемыми полями и абсолютными URL
 internal fun SeedApp.toDto(base: String, publicDir: File): AppDto {
     val apkFile = File(publicDir, apkPath)
     val size = if (apkFile.exists()) apkFile.length() else null
@@ -32,16 +29,13 @@ internal fun SeedApp.toDto(base: String, publicDir: File): AppDto {
         fullDesc = fullDesc,
         iconUrl = "$base/static/$iconPath",
         screenshots = screenshotPaths.map { "$base/static/$it" },
-        // API-роут стабильнее для клиента
         apkUrl = "$base/static/apks/$id/app-debug.apk",
         apkSize = size,
         apkSha256 = hash
     )
 }
 
-// ----------- ПРОЕКЦИИ (динамический набор полей) -----------
 
-/** Построить JsonObject из AppDto только с выбранными полями. */
 internal fun appToJson(app: AppDto, fields: Set<String>): JsonObject {
     val map = mutableMapOf<String, JsonElement>()
 
@@ -75,11 +69,9 @@ internal fun appToJson(app: AppDto, fields: Set<String>): JsonObject {
     return JsonObject(map)
 }
 
-/** Список AppDto -> JsonArray с учётом выбранных полей. */
 internal fun appsToJsonArray(apps: List<AppDto>, fields: Set<String>): JsonArray =
     JsonArray(apps.map { appToJson(it, fields) })
 
-/** Разбор ?fields=id,name,... в Set<String>. */
 internal fun parseFields(call: ApplicationCall, default: Set<String>): Set<String> {
     val raw = call.request.queryParameters["fields"]?.trim().orEmpty()
     if (raw.isBlank()) return default
@@ -89,9 +81,6 @@ internal fun parseFields(call: ApplicationCall, default: Set<String>): Set<Strin
         .toSet()
 }
 
-// ----------- ВСПОМОГАТЕЛЬНОЕ -----------
-
-/** Базовый URL (учитывает X-Forwarded-Proto) */
 internal fun ApplicationCall.baseUrl(): String {
     val scheme = request.header("X-Forwarded-Proto") ?: "http"
     val host = request.host()
@@ -100,7 +89,6 @@ internal fun ApplicationCall.baseUrl(): String {
     return if (defaultPort) "$scheme://$host" else "$scheme://$host:$port"
 }
 
-/** Стриминговый SHA-256 */
 internal fun sha256(file: File): String {
     val md = MessageDigest.getInstance("SHA-256")
     file.inputStream().use { fis ->
