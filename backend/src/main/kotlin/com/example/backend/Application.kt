@@ -20,9 +20,7 @@ import java.net.Inet4Address
 import java.net.NetworkInterface
 
 
-// В конце Application.kt добавьте:
 fun Application.module() {
-    // Перенесите сюда всю конфигурацию из embeddedServer {...}
     install(ContentNegotiation) { json() }
     install(AutoHeadResponse)
     install(Compression) { gzip() }
@@ -62,7 +60,6 @@ fun main() {
     }.start(wait = true)
 }
 
-/** Список локальных IPv4 адресов (исключая loopback/виртуальные/выключенные интерфейсы). */
 private fun localLanIPv4(): List<String> =
     NetworkInterface.getNetworkInterfaces()
         .toList()
