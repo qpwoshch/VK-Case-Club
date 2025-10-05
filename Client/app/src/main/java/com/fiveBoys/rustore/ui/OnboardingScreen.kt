@@ -39,7 +39,6 @@ fun OnboardingScreen(
         onShown()
     }
 
-    // Анимации для плавающих иконок
     val infiniteTransition = rememberInfiniteTransition()
 
     val floatAnimation1 by infiniteTransition.animateFloat(
@@ -84,7 +83,6 @@ fun OnboardingScreen(
         )
     )
 
-    // Анимация появления контента
     val contentAlpha by animateFloatAsState(
         targetValue = 1f,
         animationSpec = tween(durationMillis = 1000, delayMillis = 500)
@@ -103,11 +101,9 @@ fun OnboardingScreen(
                 )
             )
     ) {
-        // Фоновые декоративные элементы
         Box(modifier = Modifier.fillMaxSize()) {
-            // Полупрозрачные иконки приложений на фоне
             FloatingAppIcon(
-                iconRes = R.mipmap.ic_ozon, // Замените на вашу иконку Ozon
+                iconRes = R.mipmap.ic_ozon,
                 x = 0.15f,
                 y = 0.2f,
                 floatAnimation = floatAnimation1,
@@ -115,7 +111,7 @@ fun OnboardingScreen(
             )
 
             FloatingAppIcon(
-                iconRes = R.mipmap.ic_wildberries, // Замените на вашу иконку Wildberries
+                iconRes = R.mipmap.ic_wildberries,
                 x = 0.95f,
                 y = 0.3f,
                 floatAnimation = floatAnimation2,
@@ -123,7 +119,7 @@ fun OnboardingScreen(
             )
 
             FloatingAppIcon(
-                iconRes = R.mipmap.ic_telegram, // Замените на вашу иконку VK
+                iconRes = R.mipmap.ic_telegram,
                 x = 0.35f,
                 y = 0.85f,
                 floatAnimation = floatAnimation3,
@@ -131,7 +127,7 @@ fun OnboardingScreen(
             )
 
             FloatingAppIcon(
-                iconRes = R.mipmap.ic_vk, // Замените на вашу иконку Telegram
+                iconRes = R.mipmap.ic_vk,
                 x = 0.45f,
                 y = 0.35f,
                 floatAnimation = floatAnimation1,
@@ -139,7 +135,7 @@ fun OnboardingScreen(
             )
 
             FloatingAppIcon(
-                iconRes = R.mipmap.ic_yandex, // Замените на вашу иконку Yandex
+                iconRes = R.mipmap.ic_yandex,
                 x = 0.9f,
                 y = 0.8f,
                 floatAnimation = floatAnimation2,
@@ -147,14 +143,13 @@ fun OnboardingScreen(
             )
 
             FloatingAppIcon(
-                iconRes = R.mipmap.ic_sber, // Замените на вашу иконку Sber
+                iconRes = R.mipmap.ic_sber,
                 x = 0.1f,
                 y = 0.5f,
                 floatAnimation = floatAnimation3,
                 size = 95.dp
             )
 
-            // Декоративные круги
             AnimatedCircle(
                 x = 0.15f,
                 y = 0.1f,
@@ -177,7 +172,6 @@ fun OnboardingScreen(
             )
         }
 
-        // Основной контент
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -185,14 +179,12 @@ fun OnboardingScreen(
                 .alpha(contentAlpha),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Верхняя часть с логотипом
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Spacer(Modifier.height(60.dp))
 
-                // Анимированная карточка с логотипом
                 AnimatedLogoCard()
 
                 Spacer(Modifier.height(32.dp))
@@ -208,7 +200,6 @@ fun OnboardingScreen(
                 Spacer(Modifier.height(12.dp))
             }
 
-            // Центральная часть с текстом
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
@@ -236,7 +227,6 @@ fun OnboardingScreen(
                 )
             }
 
-            // Нижняя часть с кнопкой
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
@@ -378,7 +368,7 @@ private fun AnimatedAppBadge(name: String, color: Color, index: Int) {
         )
     )
 
-    val badgeAlpha by animateFloatAsState( // Переименовал переменную
+    val badgeAlpha by animateFloatAsState(
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
             animation = keyframes {
@@ -395,7 +385,7 @@ private fun AnimatedAppBadge(name: String, color: Color, index: Int) {
         modifier = Modifier
             .graphicsLayer {
                 translationY = offsetY
-                alpha = badgeAlpha // Используем переименованную переменную
+                alpha = badgeAlpha
             }
             .clip(RoundedCornerShape(12.dp))
             .background(color)
@@ -415,37 +405,33 @@ private fun AnimatedAppBadge(name: String, color: Color, index: Int) {
 private fun AnimatedContinueButton(onContinue: () -> Unit) {
     val infiniteTransition = rememberInfiniteTransition()
 
-    // Усиленная анимация elevation
     val elevationAnim by infiniteTransition.animateFloat(
         initialValue = 8f,
-        targetValue = 20f, // Увеличили максимальную тень
+        targetValue = 20f,
         animationSpec = infiniteRepeatable(
-            animation = tween(800), // Ускорили анимацию
+            animation = tween(800),
             repeatMode = RepeatMode.Reverse
         )
     )
 
-    // Более выраженная анимация масштаба
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = 1.08f, // Увеличили масштаб
+        targetValue = 1.08f,
         animationSpec = infiniteRepeatable(
             animation = tween(1200),
             repeatMode = RepeatMode.Reverse
         )
     )
 
-    // Добавим анимацию цвета фона
     val backgroundColor by infiniteTransition.animateColor(
         initialValue = Color.White,
-        targetValue = Color(0xFFE8F0FE), // Легкий голубой оттенок
+        targetValue = Color(0xFFE8F0FE),
         animationSpec = infiniteRepeatable(
             animation = tween(1500),
             repeatMode = RepeatMode.Reverse
         )
     )
 
-    // Анимация градиентной обводки
     val borderWidth by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 3f,
@@ -459,7 +445,7 @@ private fun AnimatedContinueButton(onContinue: () -> Unit) {
         onClick = onContinue,
         modifier = Modifier
             .fillMaxWidth()
-            .height(64.dp) // Немного увеличили высоту
+            .height(64.dp)
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale
@@ -468,7 +454,7 @@ private fun AnimatedContinueButton(onContinue: () -> Unit) {
             },
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor, // Анимируемый цвет фона
+            containerColor = backgroundColor,
             contentColor = Color(0xFF1A73E8)
         ),
         elevation = ButtonDefaults.buttonElevation(
@@ -490,9 +476,8 @@ private fun AnimatedContinueButton(onContinue: () -> Unit) {
         Text(
             "Продолжить",
             fontSize = 18.sp,
-            fontWeight = FontWeight.Bold, // Сделали текст жирнее
-            letterSpacing = 1.sp, // Увеличили межбуквенное расстояние
-//            modifier = Modifier.shadow(2.dp) // Тень у текста
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 1.sp,
         )
     }
 }

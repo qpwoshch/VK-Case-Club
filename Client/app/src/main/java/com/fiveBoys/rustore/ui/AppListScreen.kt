@@ -89,7 +89,6 @@ private fun AppListItem(app: AppDto, onClick: () -> Unit) {
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Иконка приложения
             AsyncImage(
                 model = app.iconUrl,
                 contentDescription = null,
@@ -100,7 +99,6 @@ private fun AppListItem(app: AppDto, onClick: () -> Unit) {
 
             Spacer(Modifier.width(16.dp))
 
-            // Информация о приложении
             Column(Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(

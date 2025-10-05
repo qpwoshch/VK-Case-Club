@@ -13,7 +13,7 @@ class Connect {
     suspend fun getData(id: String): String {
         return withContext(Dispatchers.IO) {
             val request = Request.Builder()
-                .url("http://192.168.0.115:8080/apps/$id")
+                .url("http://192.168.43.9:8080/apps/$id")
                 .build()
             val response: Response = client.newCall(request).execute()
             response.body?.string() ?: ""

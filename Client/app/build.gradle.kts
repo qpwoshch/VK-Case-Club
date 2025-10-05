@@ -28,7 +28,6 @@ android {
             )
         }
         debug {
-            // Удобнее логгировать сеть
             isMinifyEnabled = false
         }
     }
@@ -39,7 +38,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
-        // Чтобы coroutines и serialization оптимальнее инлайнились
         freeCompilerArgs += listOf(
             "-Xjvm-default=all",
             "-Xcontext-receivers"
@@ -51,7 +49,6 @@ android {
         buildConfig = true
     }
     composeOptions {
-        // Совместимо с Kotlin 1.9.24
         kotlinCompilerExtensionVersion = "1.5.14"
     }
 
@@ -68,7 +65,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.compose.runtime)
-    val nav_version = "2.8.3" // последняя стабильная на октябрь 2025
+    val nav_version = "2.8.3"
 
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
@@ -81,7 +78,6 @@ dependencies {
 
     implementation("com.google.android.material:material:1.12.0")
 
-    // --- Compose BOM --- //
     implementation(platform("androidx.compose:compose-bom:2024.08.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -90,17 +86,13 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.9.2")
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
-    // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
 
-    // DataStore (флаг одноразового онбординга)
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
-    // Coil (иконки/скриншоты)
     implementation("io.coil-kt:coil-compose:2.6.0")
 
-    // --- Сеть: Retrofit + OkHttp + kotlinx.serialization --- //
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
@@ -109,9 +101,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
 
-    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
-    // Logs
     implementation("com.jakewharton.timber:timber:5.0.1")
 }

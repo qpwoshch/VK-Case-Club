@@ -58,7 +58,6 @@ fun AppDetailsRoute(
         }
         is AppDetailsViewModel.Ui.Ready -> {
             val app = (ui as AppDetailsViewModel.Ui.Ready).app
-            // Вот он — твой рабочий экран
             AppCardScreen(navController = navController, app = app)
         }
     }

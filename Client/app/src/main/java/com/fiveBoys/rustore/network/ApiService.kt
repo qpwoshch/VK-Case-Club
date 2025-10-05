@@ -11,8 +11,8 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.http.Path
 
 object ApiConfig {
-    const val BASE_URL = "http://192.168.0.115:8080"
-    const val APPS_PATH = "/apps/start"  // Изменили путь
+    const val BASE_URL = "http://192.168.43.9:8080"
+    const val APPS_PATH = "/apps/start"
     const val CATEGORIES_PATH = "/categories"
 }
 

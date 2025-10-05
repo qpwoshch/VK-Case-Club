@@ -69,7 +69,6 @@ class MainActivity : ComponentActivity() {
                         })
                     ) { backStackEntry ->
                         val category = backStackEntry.arguments?.getString("category")
-                        // Обновляем ViewModel при смене категории
                         LaunchedEffect(category) {
                             listVm.refresh(category)
                         }
@@ -112,7 +111,6 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("startIndex") { type = NavType.IntType })
                     ) { backStackEntry ->
                         val startIndex = backStackEntry.arguments?.getInt("startIndex") ?: 0
-                        // забираем список скринов, который положили перед navigate
                         val screens = nav.previousBackStackEntry
                             ?.savedStateHandle
                             ?.get<ArrayList<String>>("screens")

@@ -21,7 +21,6 @@ class AppsRepository(private val api: ApiService) {
     }
 
     suspend fun getAppById(id: String): App = withContext(Dispatchers.IO) {
-        // Используем AppOpener, который делает GET /apps/{id}
         val opener = com.fiveBoys.rustore.AppOpener()
         opener.open(id)
     }
