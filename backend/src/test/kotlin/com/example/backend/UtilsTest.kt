@@ -11,7 +11,6 @@ class UtilsTest {
 
     @Test
     fun testSha256Calculation() = testApplication {
-        // Создаем временный файл для тестирования
         val tempFile = File.createTempFile("test", ".txt")
         tempFile.writeText("test content")
 
