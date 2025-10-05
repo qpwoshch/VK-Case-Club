@@ -1,0 +1,41 @@
+# Gradle / build
+.gradle/
+build/
+out/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Kotlin/Java
+.kotlin/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env/секреты
+.env
+.env.*
+*.jks
+*.keystore
+*.pem
+*.p12
+
+# APK и крупные бинарники — по умолчанию игнорим...
+*.apk
+*.png
+# ...но оставляем ровно один демонстрационный APK в репо
+!public/apks/demo.apk
+
+# (опц.) Android, если добавите модуль позже
+local.properties
+.cxx/
+*.apk.idsig
+captures/
