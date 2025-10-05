@@ -16,12 +16,9 @@ import java.util.Locale
 
 fun Application.configureRouting(publicDir: File) {
     routing {
-        // Раздача статики
         staticFiles("/static", publicDir)
 
-        // ---------- /apps/start ----------
-        // Для ВСЕХ приложений вернуть {"apps":[ ... ]} c ТОЛЬКО этими полями:
-        // id, name, category, ratingAge, shortDesc, iconUrl
+
         get("/apps/start") {
             val base = call.baseUrl()
             val fields = setOf("id", "name", "category", "ratingAge", "shortDesc", "iconUrl")
@@ -31,8 +28,6 @@ fun Application.configureRouting(publicDir: File) {
             call.respond(wrapped)
         }
 
-        // ---------- /apps ----------
-        // Список приложений: фильтр, поиск, пагинация
         get("/apps") {
             val base = call.baseUrl()
 
@@ -65,9 +60,6 @@ fun Application.configureRouting(publicDir: File) {
             call.respond(PagedAppsDto(items = page, total = all.size, limit = limit, offset = offset))
         }
 
-        // ---------- /apps/{id} ----------
-        // Вернуть ОДИН объект с полным набором полей:
-        // id, name, developer, category, ratingAge, fullDesc, iconUrl, screenshots, apkUrl, apkSize
         get("/apps/{id}") {
             val base = call.baseUrl()
             val idParam = call.parameters["id"]
@@ -93,7 +85,6 @@ fun Application.configureRouting(publicDir: File) {
             call.respond(json)
         }
 
-        // Категории
         get("/categories") {
             val categories = appsSeed
                 .groupBy { it.category }
@@ -101,7 +92,6 @@ fun Application.configureRouting(publicDir: File) {
                 .sortedBy { it.name }
                 .toMutableList()
 
-            // Добавляем категорию "Все" с общим количеством приложений
             categories.add(0, CategoryDto("Все", appsSeed.size))
             call.respond(categories)
         }
@@ -125,7 +115,6 @@ fun Application.configureRouting(publicDir: File) {
             call.respond(wrapped)
         }
 
-        // APK-скачивание
         get("/apps/{id}/apk") {
             val id = call.parameters["id"]
             val app = appsSeed.find { it.id == id }
@@ -147,10 +136,8 @@ fun Application.configureRouting(publicDir: File) {
             call.respondFile(apkFile) // PartialContent включён — Range работает
         }
 
-        // Healthcheck
         get("/health") { call.respondText("OK") }
 
-        // Диагностика статики
         get("/debug/public") {
             val icons = File(publicDir, "icons").list()?.sorted()?.toList() ?: emptyList()
             val screenshots = File(publicDir, "screenshots").list()?.sorted()?.toList() ?: emptyList()
