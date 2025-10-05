@@ -1,59 +1,75 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.mutableIntStateOf
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenshotViewerScreen(
-    screens: List<String>,
-    startIndex: Int,
-    onBack: () -> Unit
+    screens: List<String>, startIndex: Int, onBack: () -> Unit
 ) {
-    var index by rememberSaveable {
-        mutableIntStateOf(startIndex.coerceIn(0, (screens.size - 1).coerceAtLeast(0)))
-    }
+    val count = screens.size.coerceAtLeast(1)
+    val pagerState = rememberPagerState(
+        initialPage = startIndex.coerceIn(0, count - 1), pageCount = { count })
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("${index + 1}/${screens.size}") },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Назад"
+            TopAppBar(title = { Text("${pagerState.currentPage + 1} / $count") }, navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Назад")
+                }
+            })
+        }) { inner ->
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(inner)
+        ) {
+            HorizontalPager(
+                state = pagerState, modifier = Modifier.fillMaxSize()
+            ) { page ->
+                AsyncImage(
+                    model = screens[page],
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Fit
+                )
+            }
+            if (count > 1) {
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    repeat(count) { i ->
+                        val active = i == pagerState.currentPage
+                        Box(
+                            Modifier
+                                .size(if (active) 8.dp else 6.dp)
+                                .clip(CircleShape)
+                                .background(
+                                    if (active) MaterialTheme.colorScheme.primary
+                                    else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.32f)
+                                )
                         )
                     }
-                },
-                actions = {
-                    IconButton(
-                        enabled = index > 0,
-                        onClick = { index-- }
-                    ) { Text("◀️") }
-                    IconButton(
-                        enabled = index < screens.lastIndex,
-                        onClick = { index++ }
-                    ) { Text("▶️") }
                 }
-            )
+            }
         }
-    ) { inner ->
-        AsyncImage(
-            model = screens.getOrNull(index),
-            contentDescription = null,
-            modifier = Modifier
-                .padding(inner)
-                .fillMaxSize(),
-            contentScale = ContentScale.Fit
-        )
     }
 }
