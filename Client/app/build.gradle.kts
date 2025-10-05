@@ -1,80 +1,111 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
     namespace = "com.fiveBoys.rustore"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.fiveBoys.rustore"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
+        debug {
+            // Удобнее логгировать сеть
+            isMinifyEnabled = false
+        }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
+        // Чтобы coroutines и serialization оптимальнее инлайнились
+        freeCompilerArgs += listOf(
+            "-Xjvm-default=all",
+            "-Xcontext-receivers"
+        )
     }
-    buildFeatures { compose = true }
+
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
+    composeOptions {
+        // Совместимо с Kotlin 1.9.24
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
+
+    packaging {
+        resources {
+            excludes += setOf(
+                "/META-INF/{AL2.0,LGPL2.1}",
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE*"
+            )
+        }
+    }
 }
 
 dependencies {
-    implementation(libs.androidx.runtime)
-    implementation(libs.androidx.animation)
-    testImplementation(libs.junit.junit)
-    val composeBom = platform("androidx.compose:compose-bom:2024.10.01")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
+    val nav_version = "2.8.3" // последняя стабильная на октябрь 2025
 
-    implementation(libs.androidx.core.ktx.v1131)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.tooling.preview)
-    debugImplementation(libs.androidx.ui.tooling)
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
-    // --- Compose ---
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.navigation.compose)
+    implementation("com.google.code.gson:gson:2.11.0")
 
-    // --- Material Components (для XML тем и AppCompat атрибутов) ---
-    implementation(libs.material.v1130)
+    implementation("com.google.android.material:material:1.12.0")
 
-    // --- ConstraintLayout (для layout_constraint*) ---
-    implementation(libs.androidx.constraintlayout.v221)
+    // --- Compose BOM --- //
+    implementation(platform("androidx.compose:compose-bom:2024.08.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.activity:activity-compose:1.9.2")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
-    // --- Navigation (для NavHostFragment, defaultNavHost и т.п.) ---
-    implementation(libs.androidx.navigation.fragment.ktx.v277)
-    implementation(libs.androidx.navigation.ui.ktx.v277)
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
 
-    // --- DataStore ---
-    implementation(libs.androidx.datastore.preferences)
+    // DataStore (флаг одноразового онбординга)
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
-    // --- Network ---
-    implementation(libs.retrofit)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.logging.interceptor)
+    // Coil (иконки/скриншоты)
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
-    // --- Images ---
-    implementation(libs.coil.compose)
+    // --- Сеть: Retrofit + OkHttp + kotlinx.serialization --- //
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+    // Logs
+    implementation("com.jakewharton.timber:timber:5.0.1")
 }
