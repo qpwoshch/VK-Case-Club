@@ -92,7 +92,6 @@ class ApplicationTest {
         client.get("/apps?category=Инструменты").apply {
             assertEquals(HttpStatusCode.OK, status)
             val response = bodyAsText()
-            // Проверяем, что все возвращенные приложения относятся к категории "Инструменты"
             assertTrue(response.contains("\"category\":\"Инструменты\""))
         }
     }
