@@ -79,7 +79,8 @@
 - [Jetpack Compose](https://developer.android.com/jetpack/compose)  
 - [Jetpack ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)  
 - [Jetpack Navigation](https://developer.android.com/guide/navigation)  
-- [Retrofit](https://square.github.io/retrofit/)  
+- [Retrofit](https://square.github.io/retrofit/)
+- [PackageInstaller](https://developer.android.com/reference/android/content/pm/PackageInstaller)
 
 ### Backend
 - REST API на Kotlin  
@@ -92,5 +93,5 @@
 - Зайчиков Олег ФИТ 3 курс
 - Коротков Михаил ФИТ 3 курс
 - Лаухин Егор ФИТ 3 курс 
-- Якуба Мирослав 3 курс
+- Якуба Мирослав ФИТ 3 курс
 
